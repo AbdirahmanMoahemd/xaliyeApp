@@ -7,7 +7,6 @@ const { authRouter } = require('./routes/auth');
 const productRouter = require('./routes/product');
 const categoryRouter = require('./routes/categorey');
 const userRouter = require('./routes/user');
-const uploadRoutes = require('./routes/uploadRoutes');
 
 
 
@@ -23,9 +22,7 @@ app.use(adminRouter)
 app.use(productRouter)
 app.use(categoryRouter)
 app.use(userRouter)
-app.use(uploadRoutes)
-const __dirname2 = path.resolve()
-app.use('/uploads', express.static(path.join(__dirname2, '/uploads')))
+
 
 
 //DB connection
