@@ -14,8 +14,7 @@ const uploadRoutes = require('./routes/uploadRoutes');
 const app = express();  
 const db_url = 'mongodb+srv://developerkaahiye2:abdirahman@ecommerce.or6jw.mongodb.net/xaliye?retryWrites=true&w=majority'
 
-const __dirname2 = path.resolve()
-app.use('/uploads', express.static(path.join(__dirname2, '/uploads')))
+
 
 //middleware
 app.use(express.json())
@@ -25,6 +24,8 @@ app.use(productRouter)
 app.use(categoryRouter)
 app.use(userRouter)
 app.use(uploadRoutes)
+const __dirname2 = path.resolve()
+app.use('/uploads', express.static(path.join(__dirname2, '/uploads')))
 
 
 //DB connection
