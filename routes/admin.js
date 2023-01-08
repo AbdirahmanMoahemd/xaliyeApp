@@ -29,7 +29,7 @@ adminRouter.post("/admin/add-product", admin, async (req, res) => {
 
 adminRouter.put("/admin/update-product", admin, async (req, res) => {
   try {
-    const { name, description, images, countInStock, price, category, oldPrice  } = req.body;
+    const {id, name, description, images, countInStock, price, category, oldPrice  } = req.body;
     let product = await Product.findById(id)
     if(product){
       product.name=name
