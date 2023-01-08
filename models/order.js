@@ -22,16 +22,6 @@ const orderSchema = mongoose.Schema(
           type: Number,
           required: true,
         },
-        sizes: [
-          {
-            type: String,
-          },
-        ],
-        colors: [
-          {
-            type: Number,
-          },
-        ],
       },
     ],
     address: {

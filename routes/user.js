@@ -285,14 +285,14 @@ userRouter.post("/api/save-user-address", auth, async (req, res) => {
 // order product
 userRouter.post("/api/order", auth, async (req, res) => {
   try {
-    const { userName,userPhone, cart,cartMeal,paymentMethod, shippingPrice,totalPrice, address } = req.body;
+    const { userName,userPhone, cart,paymentMethod, shippingPrice,totalPrice, address } = req.body;
     let products = [];
 
     for (let i = 0; i < cart.length; i++) {
       let product = await Product.findById(cart[i].product._id);
       if (product.countInStock >= cart[i].quantity) {
         product.countInStock -= cart[i].quantity;
-        products.push({ product, quantity: cart[i].quantity,sizes:cart[i].sizes, colors: cart[i].colors  });
+        products.push({ product, quantity: cart[i].quantity });
         await product.save();
       } else {
         return res
@@ -301,24 +301,14 @@ userRouter.post("/api/order", auth, async (req, res) => {
       }
     }
 
-    let meals = [];
-
-    for (let i = 0; i < cartMeal.length; i++) {
-      let meal = await Meal.findById(cartMeal[i].meal._id);
-      
-      meals.push({ meal, quantity: cartMeal[i].quantity, });
-        await meal.save();
-     
-    }
+    
 
     let user = await User.findById(req.user);
     user.cart = [];
-    user.cartMeal = [];
     user = await user.save();
 
     let order = new Order({
       products,
-      meals,
       shippingPrice,
       paymentMethod,
       totalPrice,
@@ -344,7 +334,7 @@ userRouter.post("/api/order", auth, async (req, res) => {
 
 userRouter.post("/api/order/cod", auth, async (req, res) => {
   try {
-    const { userName,userPhone, cart,cartMeal,paymentMethod, shippingPrice, totalPrice, address } = req.body;
+    const { userName,userPhone, cart,paymentMethod, shippingPrice, totalPrice, address } = req.body;
     let products = [];
 
     for (let i = 0; i < cart.length; i++) {
@@ -360,24 +350,9 @@ userRouter.post("/api/order/cod", auth, async (req, res) => {
       }
     }
 
-    let meals = [];
-
-    for (let i = 0; i < cartMeal.length; i++) {
-      let meal = await Meal.findById(cartMeal[i].meal._id);
-      // if (meal.quantity >= cartMeal[i].quantity) {
-      //   meal.quantity -= cartMeal[i].quantity;
-        meals.push({ meal, quantity: cartMeal[i].quantity });
-        await meal.save();
-      // } else {
-      //   return res
-      //     .status(400)
-      //     .json({ msg: `${meal.name} is out of stock!` });
-      // }
-    }
-
+  
     let user = await User.findById(req.user);
     user.cart = [];
-    user.cartMeal = [];
    
     user = await user.save();
 
@@ -387,7 +362,6 @@ userRouter.post("/api/order/cod", auth, async (req, res) => {
 
     let order = new Order({
       products,
-      meals,
       shippingPrice,
       paymentMethod,
       totalPrice,
