@@ -341,7 +341,7 @@ userRouter.post("/api/order/cod", auth, async (req, res) => {
       let product = await Product.findById(cart[i].product._id);
       if (product.countInStock >= cart[i].quantity) {
         product.countInStock -= cart[i].quantity;
-        products.push({ product, quantity: cart[i].quantity,sizes:cart[i].sizes, colors: cart[i].colors });
+        products.push({ product, quantity: cart[i].quantity });
         await product.save();
       } else {
         return res
