@@ -17,7 +17,6 @@ export const register = async (req, res) => {
       password,
       phone,
       address,
-      country,
     });
     if (user) {
       res.status(201).json({
