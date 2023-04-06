@@ -3,7 +3,7 @@ import User from "../models/user.js";
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password, phone, address, city, country } = req.body;
+    const { name, email, password, phone, address  } = req.body;
     const userExists = await User.findOne({ email });
 
     if (userExists) {
@@ -28,8 +28,6 @@ export const register = async (req, res) => {
         isAdmin: user.isAdmin,
         phone: user.phone,
         address: user.address,
-        city: user.city,
-        country: user.country,
         token: generateToken(user._id),
       });
     } else {
@@ -54,8 +52,6 @@ export const login = async (req, res) => {
         isAdmin: user.isAdmin,
         phone: user.phone,
         address: user.address,
-        city: user.city,
-        country: user.country,
         cart: user.cart,
         wishlist: user.wishlist,
         token: generateToken(user._id),
@@ -191,8 +187,6 @@ export const getUserProfileById = async (req, res) => {
       isAdmin: user.isAdmin,
       phone: user.phone,
       address: user.address,
-      city: user.city,
-      country: user.country,
       token,
       cart: user.cart,
       wishlist: user.wishlist,
