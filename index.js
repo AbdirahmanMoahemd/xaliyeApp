@@ -1,27 +1,24 @@
-require('dotenv').config()
-const path = require('path');
-const express = require('express');
-const mongoose = require('mongoose');
-const adminRouter = require('./routes/admin');
-const { authRouter } = require('./routes/auth');
-const productRouter = require('./routes/product');
-const categoryRouter = require('./routes/categorey');
-const userRouter = require('./routes/user');
+import dotenv from  'dotenv';
+import path from 'path';
+import express from'express';
+import mongoose from'mongoose';
+import productRouter from'./routes/productRoutes.js';
+import categoryRouter from'./routes/categoreyRoutes.js';
+import userRouter from'./routes/userRoutes.js';
 
 
-
+dotenv.config();
 const app = express();  
 const db_url = 'mongodb+srv://developerkaahiye2:abdirahman@ecommerce.or6jw.mongodb.net/xaliye?retryWrites=true&w=majority'
-
+const PORT = process.env.PORT || 5000;
 
 
 //middleware
 app.use(express.json())
-app.use(authRouter)  
-app.use(adminRouter)
-app.use(productRouter)
-app.use(categoryRouter)
-app.use(userRouter)
+app.use('/api/users', userRouter);
+app.use('/api/products', productRouter);
+app.use('/api/category', categoryRouter);
+app.use('/api/orders', categoryRouter);
 
 
 
@@ -33,7 +30,7 @@ mongoose.connect(db_url).then( ()=>{
 })
 
 
-const PORT = process.env.PORT || 5000;
+
 
 app.listen(PORT, 
     console.log(`connected at port ${PORT}`));

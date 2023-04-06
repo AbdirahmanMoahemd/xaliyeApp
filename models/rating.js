@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import  mongoose from "mongoose";
 
 const ratingSchema = mongoose.Schema({
   userId: {
@@ -11,4 +11,4 @@ const ratingSchema = mongoose.Schema({
   },
 });
 
-module.exports = ratingSchema;
+export default ratingSchema;
