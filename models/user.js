@@ -33,9 +33,10 @@ const userSchema = mongoose.Schema({
     type: String,
     default: "",
   },
-  type: {
-    type: String,
-    default: "user",
+  isAdmin: {
+    type: Boolean,
+    required: true,
+    default: false,
   },
   cart: [
     {
