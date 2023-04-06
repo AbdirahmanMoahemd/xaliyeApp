@@ -17,7 +17,6 @@ export const register = async (req, res) => {
       password,
       phone,
       address,
-      city,
       country,
     });
     if (user) {
