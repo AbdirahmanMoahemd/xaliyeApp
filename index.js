@@ -5,7 +5,7 @@ import mongoose from'mongoose';
 import productRouter from'./routes/productRoutes.js';
 import categoryRouter from'./routes/categoreyRoutes.js';
 import userRouter from'./routes/userRoutes.js';
-
+import { notFound, errorHandler } from './middlewares/errorMidlleware.js';
 
 dotenv.config();
 const app = express();  
@@ -30,7 +30,8 @@ mongoose.connect(db_url).then( ()=>{
 })
 
 
-
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(PORT, 
     console.log(`connected at port ${PORT}`));
