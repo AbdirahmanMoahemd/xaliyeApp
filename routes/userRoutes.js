@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.route('/login').post(login);
 router.route('/').post(register);
-router.route('/profile/:id').post(protect, getUserProfileById);
+router.route('/profile/:id').post(getUserProfileById);
 
 
 
