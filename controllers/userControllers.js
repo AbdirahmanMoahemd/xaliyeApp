@@ -1,5 +1,6 @@
 import Product from "../models/product.js";
 import User from "../models/user.js";
+import generateToken from "../utils/generateToken.js";
 
 export const register = async (req, res) => {
   try {
