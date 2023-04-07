@@ -6,9 +6,9 @@ import { deleteProduct, getAllProducts, getProductById, getProductsByName, updat
 const router = express.Router();
 
 
-router.route('/').post(getAllProducts);
+router.route('/').get(getAllProducts);
 router.route('/:id').get(getProductById).post(updateProduct).delete(deleteProduct);
-router.route('/:name').post(getProductsByName);
+router.route('/:name').get(getProductsByName);
 
 
 
