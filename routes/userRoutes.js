@@ -9,7 +9,7 @@ const router = express.Router();
 router.route('/login').post(login);
 router.route('/').post(register);
 router.route('/add-to-cart').post(protect, addToCart);
-router.route('/profile/:id').post(getUserProfileById);
+router.route('/profile/:id').get(getUserProfileById);
 
 
 
