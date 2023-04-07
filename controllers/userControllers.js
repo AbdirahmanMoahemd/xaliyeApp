@@ -66,12 +66,12 @@ export const login = async (req, res) => {
 
 export const addToCart = async (req, res) => {
   try {
-    const { id, sizes, colors } = req.body;
+    const { id } = req.body;
     const product = await Product.findById(id);
     let user = await User.findById(req.user);
 
     if (user.cart.length == 0) {
-      user.cart.push({ product, quantity: 1, sizes, colors });
+      user.cart.push({ product, quantity: 1 });
     } else {
       let isProductFound = false;
       for (let i = 0; i < user.cart.length; i++) {
@@ -86,7 +86,7 @@ export const addToCart = async (req, res) => {
         );
         producttt.quantity += 1;
       } else {
-        user.cart.push({ product, quantity: 1, sizes, colors });
+        user.cart.push({ product, quantity: 1 });
       }
     }
     user = await user.save();
