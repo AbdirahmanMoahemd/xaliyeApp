@@ -4,7 +4,7 @@ import User from "../models/user.js";
 
 export const getOrders = async (req, res) => {
   try {
-    const orders = await Order.find({});
+    const orders = await Order.find({}).populate("products.product");
     orders.sort((a, b) => (a._id > b._id ? -1 : 1));
     res.json(orders);
   } catch (e) {
@@ -48,18 +48,26 @@ export const addOrderItems = async (req, res) => {
 
     for (let i = 0; i < cartproducts.length; i++) {
       let product = await Product.findById(cartproducts[i].product._id);
-      if (product.countInStock >= cartproducts[i].quantity) {
-        product.countInStock -= cartproducts[i].quantity;
-        products.push({
-          product,
-          quantity: cartproducts[i].quantity,
-        });
-        await product.save();
-      } else {
+      if (product) {
+        if (product.countInStock >= cartproducts[i].quantity) {
+          product.countInStock -= cartproducts[i].quantity;
+          products.push({
+            product,
+            quantity: cartproducts[i].quantity,
+          });
+          await product.save();
+        } else {
+          return res
+            .status(400)
+            .json({ msg: `${product.name} is out of stock!` });
+        }
+      }else {
         return res
           .status(400)
-          .json({ msg: `${product.name} is out of stock!` });
+          .json({ msg: `not found!` });
       }
+
+     
     }
 
    

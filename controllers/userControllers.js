@@ -243,3 +243,11 @@ export const getUserProfileById = async (req, res) => {
     throw new Error("User Not Found");
   }
 };
+
+
+export const getUsers = async (req, res) => {
+  const users = await User.find({}).populate("cart.product")
+  .populate("wishlist.product")
+  users.sort((a, b) => (a._id > b._id ? -1 : 1));
+  res.json(users);
+};
