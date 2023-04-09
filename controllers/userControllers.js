@@ -100,8 +100,9 @@ export const addToWishlist = async (req, res) => {
   try {
     const { id } = req.body;
     const product = await Product.findById(id);
-    let user = await User.findById(req.user).populate("cart.product")
-    .populate("wishlist.product");;
+    let user = await User.findById(req.user)
+      .populate("cart.product")
+      .populate("wishlist.product");
 
     if (user.wishlist.length == 0) {
       user.wishlist.push({ product });
@@ -126,17 +127,15 @@ export const addToWishlist = async (req, res) => {
   }
 };
 
-
 // @desc    Fetch all categories
 // @route   POST /api/categorie/
 // @access  Public
 export const removeWishlistItem = async (req, res) => {
   try {
     const { index } = req.body;
-    let user = await User.findById(req.user).populate("cart.product")
-    .populate("wishlist.product")
-    ;
-
+    let user = await User.findById(req.user)
+      .populate("cart.product")
+      .populate("wishlist.product");
     user.wishlist.splice(index, 1);
 
     user = await user.save();
@@ -174,8 +173,9 @@ export const removeWishlitItem = async (req, res) => {
   try {
     const { index } = req.body;
     // const product = await Product.findById(id);
-    let user = await User.findById(req.user).populate("cart.product")
-    .populate("wishlist.product");;
+    let user = await User.findById(req.user)
+      .populate("cart.product")
+      .populate("wishlist.product");
 
     // for (let i = 0; i < user.cart.length; i++) {
     // if (user.cart[i].product._id.equals(product._id)) {
@@ -199,7 +199,7 @@ export const deleteCart = async (req, res) => {
     const product = await Product.findById(id);
     let user = await User.findById(req.user)
       .populate("cart.product")
-      .populate("wishlist.product")
+      .populate("wishlist.product");
 
     for (let i = 0; i < user.cart.length; i++) {
       if (user.cart[i].product._id.equals(product._id)) {
