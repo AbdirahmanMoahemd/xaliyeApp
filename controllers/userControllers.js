@@ -172,7 +172,7 @@ export const removeWishlitItem = async (req, res) => {
 
 
 
-export const deleteCart = asyncHandler(async (req, res) => {
+export const deleteCart = async (req, res) => {
   try {
     const { id } = req.params;
     const product = await Product.findById(id)
@@ -194,7 +194,7 @@ export const deleteCart = asyncHandler(async (req, res) => {
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
-});
+};
 
 
 // @desc    Get user profile
