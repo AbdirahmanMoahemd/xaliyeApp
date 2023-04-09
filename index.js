@@ -4,6 +4,7 @@ import express from'express';
 import mongoose from'mongoose';
 import productRouter from'./routes/productRoutes.js';
 import categoryRouter from'./routes/categoreyRoutes.js';
+import orderRoutes from'./routes/orderRoutes.js';
 import userRouter from'./routes/userRoutes.js';
 import { notFound, errorHandler } from './middlewares/errorMidlleware.js';
 
@@ -18,7 +19,7 @@ app.use(express.json())
 app.use('/api/users', userRouter);
 app.use('/api/products', productRouter);
 app.use('/api/category', categoryRouter);
-app.use('/api/orders', categoryRouter);
+app.use('/api/orders', orderRoutes);
 
 
 
