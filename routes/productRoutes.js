@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.route('/').get(getAllProducts);
 router.route('/:id').get(getProductById).post(updateProduct).delete(deleteProduct);
-router.route('/:name').get(getProductsByName);
+router.route('/search/:name').get(getProductsByName);
 
 
 

@@ -26,7 +26,6 @@ export const getProductsByName = async (req, res) => {
   try {
     const products = await Product.find({
       name: { $regex: req.params.name, $options: "i" },
-      isFeatured: true,
     });
     if (products) {
       res.json(products);
