@@ -6,8 +6,8 @@ import { addOrderItems } from '../controllers/ordersControllers.js';
 const router = express.Router();
 
 
-router.route().get();
-router.route('/').post(protect , addOrderItems);
+
+router.route('/').post(protect, addOrderItems);
 
 
 
