@@ -4,7 +4,7 @@ import generateToken from "../utils/generateToken.js";
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password, phone, address  } = req.body;
+    const { name, email, password, phone, address } = req.body;
     const userExists = await User.findOne({ email });
 
     if (userExists) {
@@ -68,8 +68,9 @@ export const addToCart = async (req, res) => {
   try {
     const { id } = req.body;
     const product = await Product.findById(id);
-    let user = await User.findById(req.user);
-
+    let user = await User.findById(req.user)
+      .populate("cart.product")
+      .populate("wishlist.product");
     if (user.cart.length == 0) {
       user.cart.push({ product, quantity: 1 });
     } else {
@@ -95,7 +96,6 @@ export const addToCart = async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 };
-
 export const addToWishlist = async (req, res) => {
   try {
     const { id } = req.body;
@@ -129,8 +129,9 @@ export const removeCartItem = async (req, res) => {
   try {
     const { index } = req.body;
     // const product = await Product.findById(id);
-    let user = await User.findById(req.user).populate("cart.product")
-    .populate("wishlist.product");
+    let user = await User.findById(req.user)
+      .populate("cart.product")
+      .populate("wishlist.product");
 
     // for (let i = 0; i < user.cart.length; i++) {
     // if (user.cart[i].product._id.equals(product._id)) {
@@ -170,15 +171,14 @@ export const removeWishlitItem = async (req, res) => {
   }
 };
 
-
-
 export const deleteCart = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findById(id)
-    let user = await User.findById(req.user).populate("cart.product")
-    .populate("wishlist.product")
-    .populate("cartMeal.meal");;;
+    const product = await Product.findById(id);
+    let user = await User.findById(req.user)
+      .populate("cart.product")
+      .populate("wishlist.product")
+      .populate("cartMeal.meal");
 
     for (let i = 0; i < user.cart.length; i++) {
       if (user.cart[i].product._id.equals(product._id)) {
@@ -196,14 +196,13 @@ export const deleteCart = async (req, res) => {
   }
 };
 
-
 // @desc    Get user profile
 // @route   GET /api/users/profile
 // @access  Private
 export const getUserProfileById = async (req, res) => {
   const user = await User.findById(req.params.id)
     .populate("cart.product")
-    .populate("wishlist.product")
+    .populate("wishlist.product");
   const { token } = req.body;
 
   if (user) {
