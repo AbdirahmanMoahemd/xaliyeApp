@@ -47,7 +47,7 @@ export const addOrderItems = async (req, res) => {
     let products = [];
 
     for (let i = 0; i < cartproducts.length; i++) {
-      let product = await Product.findById(cartproducts[i].product.id);
+      let product = await Product.findById(cartproducts[i].product._id);
       if (product.countInStock >= cartproducts[i].quantity) {
         product.countInStock -= cartproducts[i].quantity;
         products.push({
