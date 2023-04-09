@@ -126,6 +126,26 @@ export const addToWishlist = async (req, res) => {
   }
 };
 
+
+// @desc    Fetch all categories
+// @route   POST /api/categorie/
+// @access  Public
+export const removeWishlistItem = async (req, res) => {
+  try {
+    const { index } = req.body;
+    let user = await User.findById(req.user).populate("cart.product")
+    .populate("wishlist.product")
+    ;
+
+    user.wishlist.splice(index, 1);
+
+    user = await user.save();
+    res.json(user);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
+
 export const removeCartItem = async (req, res) => {
   try {
     const { index } = req.body;
