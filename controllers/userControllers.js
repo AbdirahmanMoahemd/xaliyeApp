@@ -129,7 +129,8 @@ export const removeCartItem = async (req, res) => {
   try {
     const { index } = req.body;
     // const product = await Product.findById(id);
-    let user = await User.findById(req.user);
+    let user = await User.findById(req.user).populate("cart.product")
+    .populate("wishlist.product");
 
     // for (let i = 0; i < user.cart.length; i++) {
     // if (user.cart[i].product._id.equals(product._id)) {
@@ -168,6 +169,33 @@ export const removeWishlitItem = async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 };
+
+
+
+export const deleteCart = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id)
+    let user = await User.findById(req.user).populate("cart.product")
+    .populate("wishlist.product")
+    .populate("cartMeal.meal");;;
+
+    for (let i = 0; i < user.cart.length; i++) {
+      if (user.cart[i].product._id.equals(product._id)) {
+        if (user.cart[i].quantity == 1) {
+          user.cart.splice(i, 1);
+        } else {
+          user.cart[i].quantity -= 1;
+        }
+      }
+    }
+    user = await user.save();
+    res.json(user);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 
 // @desc    Get user profile
 // @route   GET /api/users/profile
