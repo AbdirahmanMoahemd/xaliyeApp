@@ -1,4 +1,6 @@
 import Order from "../models/order";
+import Product from "../models/product";
+import User from "../models/user";
 
 export const getOrders = async (req, res) => {
   try {
@@ -28,6 +30,57 @@ export const changeOrderStatus = async (req, res) => {
     order = await order.save();
     res.json(order);
   } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
+
+
+export const addOrderItems = async (req, res) => {
+  try {
+    const {
+      cartproducts,
+      address,
+      paymentMethod,
+      shippingPrice,
+      totalPrice,
+    } = req.body;
+    let products = [];
+
+    for (let i = 0; i < cartproducts.length; i++) {
+      let product = await Product.findById(cartproducts[i].product.id);
+      if (product.countInStock >= cartproducts[i].quantity) {
+        product.countInStock -= cartproducts[i].quantity;
+        products.push({
+          product,
+          quantity: cartproducts[i].quantity,
+        });
+        await product.save();
+      } else {
+        return res
+          .status(400)
+          .json({ msg: `${product.name} is out of stock!` });
+      }
+    }
+
+   
+
+    let user = await User.findById(req.user);
+    user.cart = [];
+    user = await user.save();
+
+    let order = new Order({
+      products,
+      user: req.user._id,
+      address,
+      paymentMethod,
+      shippingPrice, 
+      totalPrice,
+      status:0,
+      orderedAt: new Date().getTime(),
+    });
+    order = await order.save();
+    res.json(order);   
+  } catch (e) {   
     res.status(500).json({ error: e.message });
   }
 };

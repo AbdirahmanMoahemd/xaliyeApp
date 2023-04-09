@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-const { productSchema } = require("./product");
+import mongoose from "mongoose";
 
 const orderSchema = mongoose.Schema(
   {
@@ -17,7 +16,10 @@ const orderSchema = mongoose.Schema(
     },
     products: [
       {
-        product: productSchema,
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
         quantity: {
           type: Number,
           required: true,
@@ -43,6 +45,7 @@ const orderSchema = mongoose.Schema(
       required: true,
       default: 0.0,
     },
+    
     totalPrice: {
       type: Number,
       required: true,
