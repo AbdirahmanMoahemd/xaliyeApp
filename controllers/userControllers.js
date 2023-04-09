@@ -100,7 +100,8 @@ export const addToWishlist = async (req, res) => {
   try {
     const { id } = req.body;
     const product = await Product.findById(id);
-    let user = await User.findById(req.user);
+    let user = await User.findById(req.user).populate("cart.product")
+    .populate("wishlist.product");;
 
     if (user.wishlist.length == 0) {
       user.wishlist.push({ product });
@@ -153,7 +154,8 @@ export const removeWishlitItem = async (req, res) => {
   try {
     const { index } = req.body;
     // const product = await Product.findById(id);
-    let user = await User.findById(req.user);
+    let user = await User.findById(req.user).populate("cart.product")
+    .populate("wishlist.product");;
 
     // for (let i = 0; i < user.cart.length; i++) {
     // if (user.cart[i].product._id.equals(product._id)) {
@@ -178,7 +180,6 @@ export const deleteCart = async (req, res) => {
     let user = await User.findById(req.user)
       .populate("cart.product")
       .populate("wishlist.product")
-      .populate("cartMeal.meal");
 
     for (let i = 0; i < user.cart.length; i++) {
       if (user.cart[i].product._id.equals(product._id)) {
