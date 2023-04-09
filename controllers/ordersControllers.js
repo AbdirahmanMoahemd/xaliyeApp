@@ -4,7 +4,7 @@ import User from "../models/user.js";
 
 export const getOrders = async (req, res) => {
   try {
-    const orders = await Order.find({}).populate("products.product");
+    const orders = await Order.find({}).populate("products.product").populate("user");
     orders.sort((a, b) => (a._id > b._id ? -1 : 1));
     res.json(orders);
   } catch (e) {
@@ -14,7 +14,8 @@ export const getOrders = async (req, res) => {
 
 export const getRecentOrders = async (req, res) => {
   try {
-    const orders = await Order.find({}).sort({ orderedAt: -1 }).limit(30);
+    const orders = await Order.find({}).sort({ orderedAt: -1 }).limit(30).populate("user")
+    .populate("products.product");
 
     res.json(orders);
   } catch (e) {

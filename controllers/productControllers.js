@@ -100,10 +100,9 @@ export const updateProduct = async (req, res) => {
 // @route   GET /api/product/:id
 // @access  Private/Admin
 export const deleteProduct = async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findByIdAndDelete(req.params.id);
 
   if (product) {
-    await product.remove();
     res.json({
       message: "Product removed",
     });
