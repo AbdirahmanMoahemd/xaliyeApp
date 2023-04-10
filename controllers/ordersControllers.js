@@ -93,3 +93,15 @@ export const addOrderItems = async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 };
+
+
+export const getOrdersCount = async (req, res) => {
+  const orders = await Order.find({});
+
+  let ordersCount = 0;
+  for (let i = 0; i < orders.length; i++) {
+    ordersCount++;
+  }
+
+  res.json({ ordersCount });
+};

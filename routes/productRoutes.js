@@ -5,6 +5,7 @@ import {
   getAllProducts,
   getProductById,
   getProductsByName,
+  getProductsCount,
   updateProduct,
 } from "../controllers/productControllers.js";
 import { admin, protect } from "../middlewares/authMiddleware.js";
@@ -17,5 +18,7 @@ router
   .get(getProductById)
   .delete(protect, admin, deleteProduct);
 router.route("/search/:name").get(getProductsByName);
+router.route('/count/product').get(getProductsCount);
+
 
 export default router;

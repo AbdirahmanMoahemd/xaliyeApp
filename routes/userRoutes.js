@@ -1,5 +1,5 @@
 import express from 'express';
-import { addToCart, addToWishlist, deleteCart, getUserProfileById, getUsers, login, register, removeCartItem, removeWishlistItem } from '../controllers/userControllers.js';
+import { addToCart, addToWishlist, deleteCart, getUserProfileById, getUsers, getUsersCount, login, register, removeCartItem, removeWishlistItem } from '../controllers/userControllers.js';
 import { protect } from '../middlewares/authMiddleware.js';
 
 
@@ -14,6 +14,7 @@ router.route('/remove-cartitem').delete(protect, removeCartItem);
 router.route('/remove-from-cart/:id').delete(protect, deleteCart);
 router.route('/add-to-wishlist').post(protect, addToWishlist)
 router.route('/remove-wishlistItem').delete(protect, removeWishlistItem)
+router.route('/count').get(getUsersCount);
 
 
 

@@ -138,3 +138,15 @@ export const rateProducts = async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 };
+
+
+export const getProductsCount = async (req, res) => {
+  const products = await Product.find({});
+
+  let productsCount = 0;
+  for (let i = 0; i < products.length; i++) {
+    productsCount++;
+  }
+
+  res.json({ productsCount });
+};

@@ -251,3 +251,15 @@ export const getUsers = async (req, res) => {
   users.sort((a, b) => (a._id > b._id ? -1 : 1));
   res.json(users);
 };
+
+
+export const getUsersCount = async (req, res) => {
+  const users = await User.find({ isAdmin: false });
+
+  let usersCount = 0;
+  for (let i = 0; i < users.length; i++) {
+    usersCount++;
+  }
+
+  res.json({ usersCount });
+};
