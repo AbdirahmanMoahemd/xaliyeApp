@@ -263,3 +263,18 @@ export const getUsersCount = async (req, res) => {
 
   res.json({ usersCount });
 };
+
+
+// @desc    Delete by Id
+// @route   DELETE /api/users/:id
+// @access  Private/Admin
+export const deleteUser = async (req, res) => {
+  const user = await User.findByIdAndDelete(req.params.id);
+
+  if (user) {
+    res.json({ message: "User removed" });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+};
