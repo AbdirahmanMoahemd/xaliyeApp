@@ -23,6 +23,19 @@ export const getRecentOrders = async (req, res) => {
   }
 };
 
+
+export const getMyOrders = async (req, res) => {
+  try {
+
+    const orders = await Order.find({user: req.params.id}).sort({ orderedAt: -1 }).populate("user")
+    .populate("products.product");
+
+    res.json(orders);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
+
 export const changeOrderStatus = async (req, res) => {
   try {
     const { id, status } = req.body;
